@@ -32,6 +32,10 @@ jobs:
             python -m pip install --upgrade pip
             pip install -r requirements.txt
 
+        - name: Wait for MongoDB
+          run: |
+            sleep 10
+
         - name: Debug Config
           run: |
             python -c "from app.config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME; print('MONGO_URI =', MONGO_URI); print('DATABASE_NAME =', DATABASE_NAME); print('COLLECTION_NAME =', COLLECTION_NAME)"
