@@ -10,26 +10,26 @@ on:
 
 jobs:
     test:
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      steps:
+        - name: Checkout source
+          uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.10"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
 
-      - name: Debug Config
-        run: |
-          python -c "from app.config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME; print('MONGO_URI =', MONGO_URI); print('DATABASE_NAME =', DATABASE_NAME); print('COLLECTION_NAME =', COLLECTION_NAME)"
+        - name: Debug Config
+          run: |
+            python -c "from app.config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME; print('MONGO_URI =', MONGO_URI); print('DATABASE_NAME =', DATABASE_NAME); print('COLLECTION_NAME =', COLLECTION_NAME)"
 
-      - name: Run Tests
-        run: |
-          python -m pytest
+        - name: Run Tests
+          run: |
+            python -m pytest
