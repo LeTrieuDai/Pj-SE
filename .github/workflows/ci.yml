@@ -12,6 +12,12 @@ jobs:
     test:
       runs-on: ubuntu-latest
 
+      services:
+        mongodb:
+          image: mongo:8
+          ports:
+            - 27017:27017
+
       steps:
         - name: Checkout source
           uses: actions/checkout@v4
