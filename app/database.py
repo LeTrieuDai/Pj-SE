@@ -1,8 +1,9 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME
+from app.config import MONGO_URI, DATABASE_NAME
 
-client = AsyncIOMotorClient(MONGO_URI)
+def get_database():
+    client = AsyncIOMotorClient(MONGO_URI)
+    return client[DATABASE_NAME]
 
-db = client[DATABASE_NAME]
-
-task_collection = db[COLLECTION_NAME]
+def get_collection():
+    return get_database()["tasks"]

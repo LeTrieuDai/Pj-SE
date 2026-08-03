@@ -1,12 +1,14 @@
-from app.database import task_collection
+
 from bson import ObjectId
+from app.database import get_collection
 
 
 async def get_all_tasks():
+    collection = get_collection()
 
     tasks = []
 
-    async for task in task_collection.find():
+    async for task in collection.find():
         task["_id"] = str(task["_id"])
         tasks.append(task)
 
@@ -14,18 +16,22 @@ async def get_all_tasks():
 
 
 async def create_task(task):
+    collection = get_collection()
 
-    result = await task_collection.insert_one(task.model_dump())
+    result = await collection.insert_one(
+        task.model_dump()
+    )
 
     return {
         "message": "Task created",
         "id": str(result.inserted_id)
     }
-    
-    
-async def get_task_by_id(task_id: str):
 
-    task = await task_collection.find_one(
+
+async def get_task_by_id(task_id: str):
+    collection = get_collection()
+
+    task = await collection.find_one(
         {"_id": ObjectId(task_id)}
     )
 
@@ -33,22 +39,27 @@ async def get_task_by_id(task_id: str):
         return None
 
     task["_id"] = str(task["_id"])
-
+    
     return task
 
-async def update_task(task_id: str, task):
 
-    result = await task_collection.update_one(
+async def update_task(task_id: str, task):
+    collection = get_collection()
+
+    result = await collection.update_one(
         {"_id": ObjectId(task_id)},
         {
             "$set": task.model_dump()
         }
     )
+
     return result.modified_count
 
-async def delete_task(task_id: str):
 
-    result = await task_collection.delete_one(
+async def delete_task(task_id: str):
+    collection = get_collection()
+
+    result = await collection.delete_one(
         {"_id": ObjectId(task_id)}
     )
 
