@@ -1,0 +1,24 @@
+services:
+  mongodb:
+    image: mongo:8.0
+    container_name: pj-se-mongodb
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build: .
+    container_name: pj-se-api
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+volumes:
+  mongo_data:
